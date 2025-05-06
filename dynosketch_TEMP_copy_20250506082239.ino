@@ -1,22 +1,13 @@
 
 /*
-
  * Basic Amplifier Dyno 
-
  * Date: 10-22-2024
-
  * Version: 1.2
-
  * Designed by M Greathouse 
-
  * Voltage Sensor Input -> A3
-
  * Current Sensor Input -> A2
-
  * Temperature Sensor Input -> D7
-
  * Reset button input - A1
-
  */
 
 #include <LiquidCrystal.h>  //Default Arduino LCD Library is included 
@@ -32,14 +23,14 @@ dht DHT;
 #define LCD_COLUMNS 20
 #define LCD_LINES   4
 
-LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES);
-//LiquidCrystal_I2C lcd(0x27, 20, 4); // I2C address 0x27, 20 column and 4 rows
+// I2C address 0x27, 20 column and 4 rows
+LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES); 
 
 // Define Input Pins. These are analog inputs from 0-5v
 int Read_Voltage  = A3;
 int Reset = A1;
 
-// Voltage variables
+// Voltage variables - NOT NEEDED
 
   float FinalRMSVoltage;
   float Voltage_Value;
@@ -80,7 +71,7 @@ void setup() {
 }
 
 
-
+// Voltage reading section, this is not needed as we are calculating from the current and resistance
 float getVpp()
 {
 float result;
@@ -153,6 +144,7 @@ lcd.print("   ");
 //lcd.print("I = "); lcd.print(Amperage_Value);
 //lcd.print("I = "); lcd.print(Amperage_Value,1);
 lcd.print("I = "); lcd.print(ampRms,1);
+  
 // Calculate the wattage and peak into variables for display
 float Power_Value = watt;
 
