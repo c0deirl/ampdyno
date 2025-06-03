@@ -4,7 +4,6 @@
  * Date: 10-22-2024
  * Version: 1.2
  * Designed by M Greathouse 
- * Voltage Sensor Input -> A3
  * Current Sensor Input -> A2
  * Temperature Sensor Input -> D7
  * Reset button input - A1
@@ -15,7 +14,7 @@
 #include <dht.h> // Define library for temp sensor
 
 #define DHT11_PIN 7 // USE PIN 7 Digital for the DHT11 temp sensor
-#define DHTTYPE DHT11 // DHT 11 for actual use
+#define DHTTYPE DHT11 // DHT 11 for the type. Can also use DHT22 if you want better accuracy
 dht DHT;
 
 // Degine the I2C Display parameters
@@ -27,13 +26,17 @@ dht DHT;
 LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES); 
 
 // Define Input Pins. These are analog inputs from 0-5v
-int Read_Voltage  = A3;
-int Reset = A1;
+int Read_Current  = A3;   // This is the current sensor input
+int Reset = A1;           // This is the peak hold reset button
+int button1 = 12;         // This is the button input for 4-8 ohm switching. GPIO 12
+const int buttonPin = 8;  // This is the reset button pin. Using 10k resistor to gnd on the pin 8 side, then the other side of the button to 5v
+int resetValue1 = LOW;    // Defines the base reset value. Once the pin goes high, that will trigger the reset
+
 
 // Voltage variables - NOT NEEDED
 
-  float FinalRMSVoltage;
-  float Voltage_Value;
+ // float FinalRMSVoltage;
+ // float Voltage_Value;
 
 const float acsOut =A2; // Analog Pin 2
 int acsSensitivity =59;
@@ -43,13 +46,7 @@ float ampRms=0;
 float watt=0;
 float resistance=0;
 
-
-const int buttonPin = 8; // This is the reset button pin. Using 10k resistor to gnd on the pin 8 side, then the other side of the button to 5v
-int resetValue1 = LOW; // Defines the base reset value. Once the pin goes high, that will trigger the reset
 float Max_Value; // Define the Peak value outside of the loop so the state can be reset
-
-int button1 = 12; //This is the button input for 4-8 ohm switching
-
 
 void setup() {
 
@@ -67,6 +64,7 @@ void setup() {
   lcd.clear(); // Clear the display before moving to the data reading
 
   pinMode(buttonPin, INPUT); // Set the reset button to an input
+  pinMode(button1, INPUT); // Set the 4-8 ohm switching button to an input
 
 }
 
@@ -102,9 +100,9 @@ return result;
 void loop() {
 
  // Assign variables for the analog input readings so they can be manipulated
- float Voltage_Value = analogRead(Read_Voltage);
- //float Current_Value = analogRead(Read_Current);
- //float Temp_Value = analogRead(Read_Temp);
+ //float Voltage_Value = analogRead(Read_Voltage);
+ float Current_Value = analogRead(Read_Current);
+ float Temp_Value = analogRead(Read_Temp);
 
 // Set a static amperage value since it will need to be calculated
  float Amperage_Value = 0;
@@ -117,7 +115,7 @@ void loop() {
 // Calculate the actual celcius temperature based off the 0-1023 input
 float fahrenheit = ((DHT.temperature * 9) + 3) / 5 + 32;
 
-  FinalRMSVoltage = map(Voltage_Value,400,490,0,125);
+  FinalRMSVoltage = map(Current_Value,400,490,0,125);
 
 
 if (digitalRead(button1) == HIGH)
@@ -125,7 +123,7 @@ if (digitalRead(button1) == HIGH)
   resistance = 4;
   
 }
-if (digitalRead(button1) == LOW)
+else if (digitalRead(button1) == LOW)
 {
   resistance = 8;
   
@@ -159,7 +157,6 @@ lcd.setCursor(0, 1);
   lcd.print("Temp = ");
   lcd.print(fahrenheit, 1);
   lcd.print(" F");
-
 
 // Third Line on the display
 lcd.setCursor(0, 2);  
