@@ -24,7 +24,7 @@ DHT11 Temperature sensor
 
 ## Wiring Schematic  
 
-## Build. 
+## Build  
 
 ![24-11-08 16-18-10 5836](https://github.com/user-attachments/assets/ff974486-0075-41a3-bc1e-0c9c84607b32)
 ![24-11-02 07-54-56 5727](https://github.com/user-attachments/assets/2f4c98c8-3f28-46d1-af98-09e95a85cc84)
