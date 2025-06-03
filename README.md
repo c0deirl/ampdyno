@@ -10,16 +10,16 @@ There is also a temperature sensor included to monitor the temperature of the he
 Reccomended to use a 40HZ or 1000hz sine wave directly into the amplifier, right along the edge of peak to gather the best data. I added in a set of binding posts on the back to allow you to connect an osciliscope to watch the sine wave and check for distortion, and watch when the amp starts to clip.
 
 ## Parts:  
-320mmx268mmx120mm Metal enclosure 
-12v 30a Relay 
-12v Switch
-220mmx220mm Aluminum heatsink
-30a ACS712 Current Sensor
-Arduino R3 Board
-12v 5A Power Supply
-16 - 4ohm 100w resistors
-i2C 2004 LED module
-DHT11 Temperature sensor
+- 320mmx268mmx120mm Metal enclosure  
+- 12v 30a Relay  
+- 12v Switch    
+- 220mmx220mm Aluminum heatsink  
+- 30a ACS712 Current Sensor  
+- Arduino R3 Board  
+- 12v 5A Power Supply  
+- 16 - 4ohm 100w resistors  
+- i2C 2004 LED module  
+- DHT11 Temperature sensor  
 
 
 ## Wiring Schematic  
