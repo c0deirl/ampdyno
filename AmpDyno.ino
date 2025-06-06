@@ -1,21 +1,12 @@
 /*
-
  * Basic Amplifier Dyno 
-
  * Date: 10-22-2024
-
  * Version: 1.2
-
- * Designed by M Greathouse 
-
- * Voltage Sensor Input -> A3
-
+ * Designed by M Greathouse
  * Current Sensor Input -> A2
-
  * Temperature Sensor Input -> D7
-
  * Reset button input - A1
-
+ * 4-8ohm Switch Input - D12
  */
 
 #include <LiquidCrystal.h>  //Default Arduino LCD Library is included 
