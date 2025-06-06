@@ -75,11 +75,11 @@ Amperage_Value = (2.5 - (Current_Value * (5 / 1024)) )/0.185;
 float fahrenheit = ((Temp_Value * 9) + 3) / 5 + 32;
 
 // Handle the button press for 4 or 8 ohm operation
-if (digitalRead(button1) == HIGH)
+if (digitalRead(LoadPin) == HIGH)
 {
   resistance = 4;
 }
-else if (digitalRead(button1) == LOW)
+else if (digitalRead(LoadPin) == LOW)
 {
   resistance = 8;
 }
