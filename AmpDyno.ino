@@ -88,7 +88,7 @@ else if (digitalRead(LoadPin) == LOW)
 // While we are at it, might as well calculate the voltage also
 
 float Watt_Value = (Amperage_Value * Amperage_Value) * resistance;
-float Voltage_Value = Amperage_Value * resistance;
+Voltage_Value = Amperage_Value * resistance;
 
 // DISPLAY
 // First Line on the display
