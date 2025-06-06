@@ -27,7 +27,7 @@ LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES);
 
 // Define Input Pins. 
 const int ResetPin = 8;          // This is the reset button pin. Using 10k resistor to gnd on the pin 8 side, then the other side of the button to 5v
-const int LoadPin = 12;           // This is the digital button input for 4-8 ohm switching
+const int LoadPin = 12;          // This is the digital button input for 4-8 ohm switching
 
 // Voltage variables
 
@@ -35,9 +35,6 @@ const int LoadPin = 12;           // This is the digital button input for 4-8 oh
   //float Voltage_Value;
 
 const float acsOut =A2;     // Analog Pin 2 input for the current reading
-int acsSensitivity =59;     // Sets the sensitivity of the current sensor, this should default to 59
-//float voltage =-1;
-//float vRms=0;
 float ampRms=0;
 float watt=0;
 float resistance=0;
@@ -63,26 +60,27 @@ void setup()
   dht.begin();                   // Initialize the DHT Sensor
 }
 
-void loop() {
+void loop() 
+{
 
  // Assign variables for the analog input readings so they can be manipulated
- //float Voltage_Value = analogRead(Read_Voltage);
- float Current_Value = analogRead(Read_Current);
- float Temp_Value = dht.readTemperature();
+  float Current_Value = analogRead(Read_Current);
+  float Temp_Value = dht.readTemperature();
+  float Voltage_Value = 0;
 
-// Set a static amperage value since it will need to be calculated
- float Amperage_Value = 0;
+// Set a static amperage and voltage values since they will need to be calculated
+  float Amperage_Value = 0;
+  float Voltage_Value = 0;
 
 // Calculate a basic current value - NEEDS IMPROVEMENT
 // 0.185v(185mV) is rise in output voltage when 1A current flows at input.
 // This value might change depending on the situation, adjust as necessiary per sensor
 Amperage_Value = (2.5 - (Current_Value * (5 / 1024)) )/0.185;   
 
-// Calculate the actual celcius temperature based off the 0-1023 input
+// Calculate the Farenheit temperature based off the 0-1023 input
 float fahrenheit = ((Temp_Value * 9) + 3) / 5 + 32;
 
-FinalRMSAmp = map(Current_Value,400,490,0,125);
-
+// Handle the button press for 4 or 8 ohm operation
 if (digitalRead(button1) == HIGH)
 {
   resistance = 4;
@@ -92,57 +90,51 @@ else if (digitalRead(button1) == LOW)
   resistance = 8;
 }
 
-//float voltage =getVpp();
-//vRms =(voltage/2.0)*0.707;
-ampRms =(vRms*1000)/acsSensitivity;
-watt = ampRms * resistance;
+// Calculate the wattage based on the amperage squared * resistance
+// While we are at it, might as well calculate the voltage also
+
+Watt_Value = (Amperage_Value * Amperage_Value) * resistance;
+Voltage_Value = Amperage_Value * resistance;
 
 // DISPLAY
 // First Line on the display
 lcd.setCursor(0, 0);
 lcd.print("R = "); lcd.print(resistance);
 lcd.print("   "); 
-//lcd.print("I = "); lcd.print(Amperage_Value);
-//lcd.print("I = "); lcd.print(Amperage_Value,1);
-lcd.print("I = "); lcd.print(ampRms,1);
-// Calculate the wattage and peak into variables for display
-float Power_Value = watt;
+lcd.print("I = "); lcd.print(Amperage_Value,1);
+
+// Calculate the peak into variables for display
+float Power_Value = Watt_Value;
 
   if(Power_Value > Max_Value)
  {Max_Value = Power_Value;}
 
-// Set the pinput check PER LOOP to read the temperature sensor, The DHT values will change depending on the type of DHT sensor.
-//int chk = DHT.read11(DHT11_PIN);
-
-// Second Line on the display
+//--------------------- Display ---------------------------
+// First Line on the display
 lcd.setCursor(0, 1);
   lcd.print("Temp = ");
   lcd.print(fahrenheit, 1);
   lcd.print(" F");
-
-
-// Third Line on the display
+// Second Line on the display
 lcd.setCursor(0, 2);  
  lcd.print("Wattage = "); 
-// lcd.print(Power_Value,2); 
-lcd.print(watt,2);
-
-// Fourth Line on the display
+ lcd.print(Watt_Value,2);
+// Third Line on the display
 lcd.setCursor(0, 3);
   lcd.print("Peak = "); 
   lcd.print(Max_Value,2); 
 
 // RESET Button
 int resetValue = digitalRead(buttonPin); // Read from the input pin and assign to resetValue
+
 // Compare resetValue to the LOW variation (defined at the top)
 if(resetValue != resetValue1)
   {
     if(resetValue == HIGH)
     {
       Max_Value = 0.0000; // Set the MAX value to 0 for the beginning of the next loop
-      //delay (1000);
     }
-    // Remember the value for the next time.
+    // Remember the value for the next time, since the loop might be faster than how quick you push the button
     resetValue1 = resetValue;
   }
 
