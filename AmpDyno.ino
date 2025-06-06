@@ -125,7 +125,7 @@ lcd.setCursor(0, 3);
   lcd.print(Max_Value,2); 
 
 // RESET Button
-int resetValue = digitalRead(buttonPin); // Read from the input pin and assign to resetValue
+int resetValue = digitalRead(ResetPin); // Read from the input pin and assign to resetValue
 
 // Compare resetValue to the LOW variation (defined at the top)
 if(resetValue != resetValue1)
