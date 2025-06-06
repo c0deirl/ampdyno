@@ -23,6 +23,7 @@ Reccomended to use a 40HZ or 1000hz sine wave directly into the amplifier, right
 
 
 ## Wiring Schematic  
+![AmpDyno1](https://github.com/user-attachments/assets/551e230d-a2ef-42d6-981e-578bb0fcd00f)
 
 ## Build  
 
