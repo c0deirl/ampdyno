@@ -34,7 +34,7 @@ const int LoadPin = 12;          // This is the digital button input for 4-8 ohm
   //float FinalRMSVoltage;
   //float Voltage_Value;
 
-const float acsOut =A2;     // Analog Pin 2 input for the current reading
+const float ReadCurrent =A2;     // Analog Pin 2 input for the current reading
 float ampRms=0;
 float watt=0;
 float resistance=0;
