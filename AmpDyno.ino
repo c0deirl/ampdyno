@@ -61,7 +61,6 @@ void loop()
  // Assign variables for the analog input readings so they can be manipulated
   float Current_Value = analogRead(Read_Current);
   float Temp_Value = dht.readTemperature();
-  float Voltage_Value = 0;
 
 // Set a static amperage and voltage values since they will need to be calculated
   float Amperage_Value = 0;
