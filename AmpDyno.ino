@@ -63,32 +63,6 @@ void setup()
   dht.begin();                   // Initialize the DHT Sensor
 }
 
-float getVpp()
-{
-float result;
-int readValue;
-int maxValue=0;
-int minValue=1023;
-uint32_t start_time=millis();
-while((millis()-start_time < 1000))
-{
-    readValue =analogRead(acsOut);
-    if(readValue > maxValue)
-    {
-       maxValue=readValue;
-    }
-    if(readValue < minValue)
-    { 
-       minValue=readValue;
-    }
-       
-}
-result=((maxValue-minValue)*5.0)/1023.0;
-return result;
-}
-
-
-
 void loop() {
 
  // Assign variables for the analog input readings so they can be manipulated
