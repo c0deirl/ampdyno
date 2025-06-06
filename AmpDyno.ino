@@ -65,6 +65,7 @@ void loop()
 // Set a static amperage and voltage values since they will need to be calculated
   float Amperage_Value = 0;
   float Voltage_Value = 0;
+  float Watt_Value = 0;
 
 // Calculate a basic current value - NEEDS IMPROVEMENT
 // 0.185v(185mV) is rise in output voltage when 1A current flows at input.
@@ -87,7 +88,7 @@ else if (digitalRead(LoadPin) == LOW)
 // Calculate the wattage based on the amperage squared * resistance
 // While we are at it, might as well calculate the voltage also
 
-float Watt_Value = (Amperage_Value * Amperage_Value) * resistance;
+Watt_Value = (Amperage_Value * Amperage_Value) * resistance;
 Voltage_Value = Amperage_Value * resistance;
 
 // DISPLAY
