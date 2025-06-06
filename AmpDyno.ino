@@ -28,7 +28,7 @@ LiquidCrystal_I2C lcd(I2C_ADDR, LCD_COLUMNS, LCD_LINES);
 // Define Input Pins. 
 const int ResetPin = 8;          // This is the reset button pin. Using 10k resistor to gnd on the pin 8 side, then the other side of the button to 5v
 const int LoadPin = 12;          // This is the digital button input for 4-8 ohm switching
-const float ReadCurrent =A2;     // Analog Pin 2 input for the current reading
+const float Read_Current =A2;     // Analog Pin 2 input for the current reading
 
 float ampRms=0;
 float watt=0;
