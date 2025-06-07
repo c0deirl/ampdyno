@@ -4,7 +4,7 @@
  * Version: 1.2
  * Designed by M Greathouse
  * Current Sensor Input -> A2
- * Temperature Sensor Input -> D7
+ * Temperature Sensor Input -> D6
  * Reset button input - D8
  * 4-8ohm Load Bank Switch Input - D12
  */
@@ -14,9 +14,9 @@
 #include <DHT.h>                // Define library for temp sensor
 
 // Set the DHT11 parameters
-#define DHT11_PIN 7             // USE PIN 7 Digital for the DHT11 temp sensor
-#define DHTTYPE DHT11           // DHT 11 for actual use
-DHT dht(DHT11_PIN, DHTTYPE);
+#define DHT22PIN 6            // USE PIN 7 Digital for the DHT11 temp sensor
+#define DHTTYPE DHT22           // DHT 22 for actual use
+DHT dht(DHT22PIN, DHTTYPE);
 
 // Set the I2C Display parameters
 #define I2C_ADDR    0x27
@@ -39,6 +39,7 @@ float Max_Value;            // Define the Peak value outside of the loop so the 
 
 void setup() 
 {
+  Serial.begin(9600);
   lcd.init();
   lcd.backlight();                // Turn on the backlight
   lcd.setCursor(2, 1);
@@ -61,16 +62,17 @@ void loop()
  // Assign variables for the analog input readings so they can be manipulated
   float Current_Value = analogRead(Read_Current);
   float Temp_Value = dht.readTemperature();
-
+  Serial.println(Temp_Value);
 // Set a static amperage and voltage values since they will need to be calculated
   float Amperage_Value = 0;
   float Voltage_Value = 0;
   float Watt_Value = 0;
 
 // Calculate a basic current value - NEEDS IMPROVEMENT
-// 0.185v(185mV) is rise in output voltage when 1A current flows at input.
+// 0.066v(66mV) is rise in output voltage when 1A current flows at input.
 // This value might change depending on the situation, adjust as necessiary per sensor
-Amperage_Value = (2.5 - (Current_Value * (5 / 1024)) )/0.185;   
+
+Amperage_Value = ((Current_Value - 511) * (5 / 1023)) / 0.10 - 0.066;
 
 // Calculate the Farenheit temperature based off the 0-1023 input
 float fahrenheit = ((Temp_Value * 9) + 3) / 5 + 32;
@@ -96,7 +98,7 @@ Voltage_Value = Amperage_Value * resistance;
 lcd.setCursor(0, 0);
 lcd.print("R = "); lcd.print(resistance);
 lcd.print("   "); 
-lcd.print("I = "); lcd.print(Amperage_Value,1);
+lcd.print("I = "); lcd.print(Voltage_Value,1);
 
 // Calculate the peak into variables for display
 float Power_Value = Watt_Value;
