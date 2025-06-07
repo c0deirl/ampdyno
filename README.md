@@ -3,9 +3,11 @@ Software for an audio amplifier testing dyno.
 
 This is for a design using an Arduino, to measure an audio amplifiers total output power in RMS. This is used in the car audio, and pro audio industry, to validate that the amplifier is outputting the power it is supposed to.
 The dyno uses a large load bank of resistors, to provide both an 8 ohm load, and a 4 ohm load. Power handling is determined by the capacity of the load bank.  
-In my design, i used 100w resistors, wired in both series and paralell to achieve the 4 and 8 ohm loads, and also to increase the overall capacity.  
-The Arduino provides the measuring by monitoring the current flowing into the resistor bank, and knowing which load bank it is on, to calculate the I²*R=P. The voltage is also calculated, but currently not displayed.  
-There is also a temperature sensor included to monitor the temperature of the heatsink, to make sure that things dont get too hot if you are testing for a long period of time.
+I used 4ohm - 100w resistors, wired in both series and paralell to achieve the 4 and 8 ohm loads. When only one bank is connected, it is an 8 ohm load, but the relay allows me to paralell another 8 ohm load, creating a larger 4 ohm load. You could probably increase the size of the overall load banks, for increased power handling, and with more relays, creating other resistance values.  
+
+The Arduino provides the measuring by monitoring the current flowing into the resistor bank(s), and knowing which load bank is connected. It uses the current value and the resistance to calculate the I²*R=P. The voltage is also calculated, but currently not displayed.  
+
+There is also a temperature sensor included to monitor the temperature of the heatsink, to make sure that things dont get too hot if you are testing for a long period of time. This is optional, but a good idea. I do have a fan in the enclosure now, which is why the 3d printed front panel includes my logo that is hollow. I'm just using the logo as a way for air to enter or exhaust for better cooling.
 
 Reccomended to use a 40HZ or 1000hz sine wave directly into the amplifier, right along the edge of peak to gather the best data. I added in a set of binding posts on the back to allow you to connect an osciliscope to watch the sine wave and check for distortion, and watch when the amp starts to clip.
 
