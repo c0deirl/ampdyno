@@ -5,8 +5,8 @@
  * Designed by M Greathouse
  * Current Sensor Input -> A2
  * Temperature Sensor Input -> D6
- * Reset button input - D8
- * 4-8ohm Load Bank Switch Input - D12
+ * Reset button input -> D8
+ * 4-8ohm Load Bank Switch Input -> D12
  */
 
 #include <LiquidCrystal.h>      //Default Arduino LCD Library is included 
