@@ -63,6 +63,7 @@ void loop()
   float Current_Value = analogRead(Read_Current);
   float Temp_Value = dht.readTemperature();
   Serial.println(Temp_Value);
+
 // Set a static amperage and voltage values since they will need to be calculated
   float Amperage_Value = 0;
   float Voltage_Value = 0;
@@ -87,24 +88,34 @@ else if (digitalRead(LoadPin) == LOW)
   resistance = 8;
 }
 
-// Calculate the wattage based on the amperage squared * resistance
-// While we are at it, might as well calculate the voltage also
-
-Watt_Value = (Amperage_Value * Amperage_Value) * resistance;
-Voltage_Value = Amperage_Value * resistance;
+// We should never have negative amperage levels, so we will handle them by setting the parameters to 0
+if (Amperage_Value < 0)
+  { 
+    Watt_Value = 0;
+    Voltage_Value = 0;
+  }
+  else // As long as the amperage is above 0, proceed with the calculation
+    {
+      // Calculate the Voltage based on the Ohms Law V=A*O
+      Voltage_Value = Amperage_Value * resistance;
+      // Calculate the Wattage based on Ohms Law W=A*V
+      Watt_Value = Voltage_Value * Amperage_Value;
+    }
 
 // DISPLAY
 // First Line on the display
 lcd.setCursor(0, 0);
 lcd.print("R = "); lcd.print(resistance);
 lcd.print("   "); 
-lcd.print("I = "); lcd.print(Voltage_Value,1);
+lcd.print("I = "); lcd.print(Amperage_Value,1);
 
-// Calculate the peak into variables for display
+// Create a new variable called Power_Value, this is a placeholder so we can calculate the peak value
 float Power_Value = Watt_Value;
 
   if(Power_Value > Max_Value)
- {Max_Value = Power_Value;}
+      {
+      Max_Value = Power_Value;
+      }
 
 //--------------------- Display ---------------------------
 // First Line on the display
